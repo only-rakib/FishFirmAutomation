@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+    <script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <style>
+        .btn.active.focus,
+        .btn.active:focus,
+        .btn.focus,
+        .btn.focus:active,
+        .btn:active:focus,
+        .btn:focus {
+            outline: 0 !important;
+            outline-offset: 0 !important;
+            background-image: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+        .disabled
+        {
+            color: black;
+        }
+    </style>
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col">
+                <a href="{% url 'url_view' 010%}" class="btn btn-primary" onclick="buttonClick(this.id)" role="radio" id="11">On</a>
+                <a href="{% url 'url_view' 011%}" class="btn btn-danger" onclick="buttonClick(this.id)" role="radio" id="10">OFF</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js" integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD" crossorigin="anonymous"></script>
+    <script>
+        function buttonClick(clickId) {
+            //var idd = $("#clickId");   
+            //alert(clickId);
+            var last_digit = clickId.slice(-1);
+            if (last_digit === "0") {
+                last_digit = "1";
+            } else {
+                last_digit = "0";
+            }
+            var groupButton = clickId.slice(0, -1) + last_digit;
+            //var idd = $("#clickId");
+            //console.log(clickId)
+            //console.log(idd)
+            var a = document.getElementById(clickId);
+            var b = document.getElementById(groupButton);
+            a.classList.add("disabled");
+            b.classList.remove("disabled");
+        }
+
+        $(".form-check-input").change(function() {
+            var checkedValue = [];
+            var inputElements = document.getElementsByClassName('form-check-input');
+            for (var i = 0; inputElements[i]; ++i) {
+                if (inputElements[i].checked) {
+                    checkedValue.push(inputElements[i].value);
+                    break;
+                }
+            }
+            /*var checkboxChecked = $('.form-check-input:checked').val();*/
+            alert(checkedValue);
+            $.ajax({
+                url: "{% url 'home' %}",
+                dataType: 'GET',
+                data: {
+                    'buttonOn': checkedValue
+                },
+                success: function(data) {
+                    if (data.is_taken) {
+                        alert("A user with this username already exists.");
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

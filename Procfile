@@ -1,0 +1,1 @@
+web: gunicorn FishCultureProject.wsgi --log-file - 
